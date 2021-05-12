@@ -1,5 +1,7 @@
 // script.js
 
+// Make sure you register your service worker here
+
 document.addEventListener('DOMContentLoaded', () => {
   fetch('http://localhost:3000/entries')
     .then(response => response.json())
