@@ -6,7 +6,7 @@ const setState = router.setState;
 
 // Make sure you register your service worker here too
 
-document.addEventListener('DtOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
   fetch('https://cse110lab6.herokuapp.com/entries')
     .then(response => response.json())
     .then(entries => {
@@ -18,7 +18,7 @@ document.addEventListener('DtOMContentLoaded', () => {
         newPost.entry = entry;
         newPost.addEventListener('click', ()=>{
           setState({name:'entry', id:newPost.id}, false);
-        })
+        });
         document.querySelector('main').appendChild(newPost);
       });
     });
@@ -36,7 +36,6 @@ home.addEventListener('click', ()=>{
 });
 
 window.addEventListener('popstate', (event)=>{
-
   setState(event.state, true);
 });
 
