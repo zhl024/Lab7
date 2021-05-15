@@ -5,7 +5,7 @@ export const router = {};
 /**
  * Changes the "page" (state) that your SPA app is currently set to
  */
-router.setState = function() {
+router.setState = function(state, flag) {
   /**
    * - There are three states that your SPA app will have
    *    1. The home page
@@ -27,7 +27,7 @@ router.setState = function() {
    *    4. For each <journal-entry> element, you can grab the JSON version of its info with .entry (e.g. someJournalEntryElement.entry)
    *       a. This is useful when viewing a single entry. You may notice an <entry-page> element in the HTML, this is the element that is displayed when the
    *          .single-entry class is applied to the body. You can populate this element by using .entry similarly. So if I wanted to grab a specific <journal-entry>
-   *          and populate it's info into the <entry-page>, I would simply use an assignment of entryPageElement.entry = journalEntryElement.entry
+   *          and populate it's info into the <entry-page>, I would simply use an assignment of newEntryElement.entry = journalEntryElement.entry
    *       b. Clearing the <entry-page> element of its previous data can be a bit tricky, it might be useful to just delete it and insert a new blank one 
    *          in the same spot each time. Just a thought.
    *
@@ -35,4 +35,36 @@ router.setState = function() {
    *    1. You may add as many helper functions in this file as you like
    *    2. You may modify the parameters of setState() as much as you like
    */
+  let body = document.querySelector("body");
+  let title = document.querySelector("h1");
+
+  if(state.name == 'main') {
+    title.innerText = 'Jounral Entries';
+    body.classList.remove('settings');
+    body.classList.remove('single-entry');
+    if(!flag){
+      history.pushState(state,'', location.origin);
+    }
+  }
+  else if(state.name == 'settings'){
+    title.innerText = 'Settings';
+    body.className = 'settings';
+    if(!flag){
+      history.pushState(state, '', '#settings');
+    }
+  }
+  else if(state.name == 'entry'){
+    let id = state.id;
+    title.innerText= 'Entry' + id;
+    body.className = 'single-entry';
+    let newEntry = document.querySelector('entry-page');
+    newEntry.remove();
+    newEntry = document.createElement('entry-page');
+    newEntry.entry = document.getElementById(id).entry;
+    body.appendChild(newEntry);
+    if(!flag){
+      history.pushState(state,'', '#entry' + id);
+    }
+  }
+
 }
